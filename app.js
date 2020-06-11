@@ -10,11 +10,15 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+let totalEmployees = [];
+
+
+
 const introQuestions = [
     { 
         type:"input",
         name: "name",
-        message: "What is your name?"
+        message: "What is your namedsafsadfsadfasdfas?"
     },
     { 
         type:"input",
@@ -25,14 +29,13 @@ const introQuestions = [
         type:"input",
         name: "email",
         message: "What is your e-mail address?"
-    },
-    { 
+    }, { 
         type:"list",
         name: "employeeType",
         message: "Which employee would you like to add?",
         choices: ['engineer', 'intern', 'none']
     },
-];
+]
 
 const internQuestions = [
     { 
@@ -42,7 +45,6 @@ const internQuestions = [
     },
 ];
 
-
 const engineerQuestions = [
     { 
         type:"input",
@@ -51,13 +53,45 @@ const engineerQuestions = [
     },
 ];
 
-inquirer
-.prompt(introQuestions)
-.then(function(response){
+inquirer.prompt(introQuestions).then(function(employeeResponse){
+console.log(employeeResponse);
+
+
     
+    if (employeeResponse.employeeType === 'engineer') {
+        inquirer.prompt(engineerQuestions).then(function(engineerResponse){
+            console.log(engineerResponse);
+            let test = new Engineer(engineerResponse);
+            totalEmployees.push(test);
+
+        })
+    } else if (employeeResponse.employeeType === 'intern') {
+        inquirer.prompt(internQuestions).then(function(internResponse){
+            console.log(internResponse);
+            totalEmployees.push(internResponse);
+
+        })
+    } else {
+        totalEmployees.push(employeeResponse);
+        return;
+    }
+
+    render(totalEmployees);
 })
 
-render();
+
+
+
+// render();
+
+// function render(){
+//     fs.writeFile("team.html", response, function(err) {
+//         if (err) {
+//           throw err;
+//           console.log("Success!");
+//         }
+//     })
+// };
 
 
 // Write code to use inquirer to gather information about the development team members,
@@ -82,6 +116,9 @@ render();
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+
+
+
 
 
 // PSEUDOCODE - README
