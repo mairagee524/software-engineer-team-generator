@@ -1,3 +1,4 @@
+const Employee = require("./lib/Employee");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -12,13 +13,11 @@ const render = require("./lib/htmlRenderer");
 
 let totalEmployees = [];
 
-
-
 const introQuestions = [
     { 
         type:"input",
         name: "name",
-        message: "What is your namedsafsadfsadfasdfas?"
+        message: "What is your name?"
     },
     { 
         type:"input",
@@ -29,7 +28,8 @@ const introQuestions = [
         type:"input",
         name: "email",
         message: "What is your e-mail address?"
-    }, { 
+    }, 
+    { 
         type:"list",
         name: "employeeType",
         message: "Which employee would you like to add?",
@@ -41,11 +41,41 @@ const internQuestions = [
     { 
         type:"input",
         name: "name",
+        message: "What is your name?"
+    },
+    { 
+        type:"input",
+        name: "id",
+        message: "What is your employee ID number?"
+    },
+    { 
+        type:"input",
+        name: "email",
+        message: "What is your e-mail address?"
+    },
+    { 
+        type:"input",
+        name: "name",
         message: "What school are you currently attending?"
     },
 ];
 
 const engineerQuestions = [
+    { 
+        type:"input",
+        name: "name",
+        message: "What is your name?"
+    },
+    { 
+        type:"input",
+        name: "id",
+        message: "What is your employee ID number?"
+    },
+    { 
+        type:"input",
+        name: "email",
+        message: "What is your e-mail address?"
+    },
     { 
         type:"input",
         name: "githubUsername",
@@ -54,44 +84,24 @@ const engineerQuestions = [
 ];
 
 inquirer.prompt(introQuestions).then(function(employeeResponse){
-console.log(employeeResponse);
-
-
     
     if (employeeResponse.employeeType === 'engineer') {
         inquirer.prompt(engineerQuestions).then(function(engineerResponse){
             console.log(engineerResponse);
             let test = new Engineer(engineerResponse);
             totalEmployees.push(test);
-
         })
     } else if (employeeResponse.employeeType === 'intern') {
         inquirer.prompt(internQuestions).then(function(internResponse){
             console.log(internResponse);
             totalEmployees.push(internResponse);
-
         })
     } else {
         totalEmployees.push(employeeResponse);
         return;
     }
-
     render(totalEmployees);
 })
-
-
-
-
-// render();
-
-// function render(){
-//     fs.writeFile("team.html", response, function(err) {
-//         if (err) {
-//           throw err;
-//           console.log("Success!");
-//         }
-//     })
-// };
 
 
 // Write code to use inquirer to gather information about the development team members,
