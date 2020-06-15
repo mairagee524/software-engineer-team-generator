@@ -123,7 +123,7 @@ async function runQuestions () {
                 type:"confirm",
                 name: "confirm",
                 message: "Do you want to add another employee?",
-            }  
+            }
         );
 
         if (!confirmAddition.confirm) {
@@ -138,7 +138,7 @@ async function runQuestions () {
                 choices: ['engineer', 'intern']
             }
         )
-        
+
         if (addOneEmployee.employeeType === 'engineer') {
             const engineerNewb = await inquirer.prompt(engineerQuestions);
             totalEmployees.push(new Engineer (
@@ -159,6 +159,7 @@ async function runQuestions () {
             ))
         }
     }
+    
     render(totalEmployees);
     fs.writeFile(outputPath, render(totalEmployees), console.log);
 }
