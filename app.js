@@ -63,22 +63,46 @@ const internQuestions = [
     { 
         type:"input",
         name: "name",
-        message: "What is your name?"
+        message: "What is your name?",
+        validate: function (response) {
+            if (response.length < 1) {
+              return 'Please enter a valid ID number.';
+            }
+            return true;
+        }
     },
     { 
         type:"input",
         name: "id",
-        message: "What is your employee ID number?"
+        message: "What is your employee ID number?",
+        validate: function (response) {
+            if (response.length < 1) {
+              return 'Please enter a valid ID number.';
+            }
+            return true;
+        }
     },
     { 
         type:"input",
         name: "email",
-        message: "What is your e-mail address?"
+        message: "What is your e-mail address?",
+        validate: function (response) {
+            if (response.length < 1) {
+              return 'Please enter a valid ID number.';
+            }
+            return true;
+        }
     },
     { 
         type:"input",
         name: "school",
-        message: "What school are you currently attending?"
+        message: "What school are you currently attending?",
+        validate: function (response) {
+            if (response.length < 1) {
+              return 'Please enter a valid ID number.';
+            }
+            return true;
+        }
     }
 ];
 
@@ -86,22 +110,46 @@ const engineerQuestions = [
     { 
         type:"input",
         name: "name",
-        message: "What is your name?"
+        message: "What is your name?",
+        validate: function (response) {
+            if (response.length < 1) {
+              return 'Please enter a valid ID number.';
+            }
+            return true;
+        }
     },
     { 
         type:"input",
         name: "id",
-        message: "What is your employee ID number?"
+        message: "What is your employee ID number?",
+        validate: function (response) {
+            if (response.length < 1) {
+              return 'Please enter a valid ID number.';
+            }
+            return true;
+        }
     },
     { 
         type:"input",
         name: "email",
-        message: "What is your e-mail address?"
+        message: "What is your e-mail address?",
+        validate: function (response) {
+            if (response.length < 1) {
+              return 'Please enter a valid ID number.';
+            }
+            return true;
+        }
     },
     { 
         type:"input",
         name: "githubUsername",
-        message: "What is your github username?"
+        message: "What is your github username?",
+        validate: function (response) {
+            if (response.length < 1) {
+              return 'Please enter a valid ID number.';
+            }
+            return true;
+        }
     }
 ];
 
@@ -117,7 +165,6 @@ async function runQuestions () {
 
     let confirmAddition = true;
     while(confirmAddition) {
-
         confirmAddition = await inquirer.prompt(
             { 
                 type:"confirm",
@@ -159,7 +206,7 @@ async function runQuestions () {
             ))
         }
     }
-    
+
     render(totalEmployees);
     fs.writeFile(outputPath, render(totalEmployees), console.log);
 }
