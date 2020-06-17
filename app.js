@@ -1,17 +1,26 @@
+// Requiring classses from different JS files
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
+
+// Requiring external node package
 const inquirer = require("inquirer");
+
+//Requiring built-in node packages
 const path = require("path");
 const fs = require("fs");
 
+// Declaring const's for path to generate HTML
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
+// Declare const to use JS file to style page
 const render = require("./lib/htmlRenderer");
 
+// Array of employees as JSON objects
 let totalEmployees = [];
 
+// Intro ?'s for when manager initiates application
 const introQuestions = [
     { 
         type:"input",
@@ -59,6 +68,7 @@ const introQuestions = [
     },
 ]
 
+// Questions about intern if manager picks intern
 const internQuestions = [
     { 
         type:"input",
@@ -106,6 +116,7 @@ const internQuestions = [
     }
 ];
 
+// Questions about engineer if manager picks intern
 const engineerQuestions = [
     { 
         type:"input",
@@ -153,9 +164,13 @@ const engineerQuestions = [
     }
 ];
 
+// Function 
 async function runQuestions () {
+
     // manager inputs answers
-    const introAnswers =  await inquirer.prompt(introQuestions)
+    const introAnswers =  await inquirer.prompt(introQuestions);
+
+    // push new JSON manager object to array
     totalEmployees.push(new Manager (
         introAnswers.name,
         introAnswers.id,
@@ -163,7 +178,10 @@ async function runQuestions () {
         introAnswers.officeNumber,
     ));
 
+    // declare let variable
     let confirmAddition = true;
+
+    // loop will run as long as manager clicks "yes" to input another employee
     while(confirmAddition) {
         confirmAddition = await inquirer.prompt(
             { 
@@ -172,11 +190,13 @@ async function runQuestions () {
                 message: "Do you want to add another employee?",
             }
         );
-
+        
+        // if user clicks "no", loop will end
         if (!confirmAddition.confirm) {
             break;
         }
 
+        // once user clics "yes", the next question appearsn
         const addOneEmployee = await inquirer.prompt(
             { 
                 type:"list",
@@ -186,6 +206,7 @@ async function runQuestions () {
             }
         )
 
+        // if user selects another engineer...
         if (addOneEmployee.employeeType === 'engineer') {
             const engineerNewb = await inquirer.prompt(engineerQuestions);
             totalEmployees.push(new Engineer (
@@ -196,6 +217,7 @@ async function runQuestions () {
             ));
         }
 
+        // if user selects another intern...
         if (addOneEmployee.employeeType === 'intern') {
             const internNewb = await inquirer.prompt(internQuestions);
             totalEmployees.push(new Intern (
@@ -207,7 +229,10 @@ async function runQuestions () {
         }
     }
 
+    // invoke render()
     render(totalEmployees);
+
+    // write to file
     fs.writeFile(outputPath, render(totalEmployees), console.log);
 }
 
